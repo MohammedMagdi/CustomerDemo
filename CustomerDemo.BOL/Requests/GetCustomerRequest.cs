@@ -9,6 +9,7 @@ namespace CustomerDemo.BOL.Requests
 {
     public class GetCustomerRequest : RequestBase
     {
+        public string SearchKey { get; set; }
         public override bool ValidateRequest()
         {
             return true;

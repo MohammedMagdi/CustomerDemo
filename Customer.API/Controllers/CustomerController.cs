@@ -37,7 +37,19 @@ namespace Customer.API.Controllers
         [Route("api/Customer/update")]
         public ResponseBase Update(UpdateCustomerRequest request)
         {
-            return RequestManager.Execute(request);
+            if (ModelState.IsValid)
+            {
+                return RequestManager.Execute(request);
+            }
+            else
+            {
+                AddCustomerResponse responseObject = new AddCustomerResponse();
+                responseObject.Message = "Validation Failed";
+                responseObject.Errors = ModelState.Keys
+                .SelectMany(key => ModelState[key].Errors.Select(x => new ValidationError(key, x.ErrorMessage)))
+                .ToList();
+                return responseObject;
+            }
         }
 
         [HttpPost]

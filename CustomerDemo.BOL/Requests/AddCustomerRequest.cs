@@ -39,7 +39,7 @@ namespace CustomerDemo.BOL.Requests
                             for (int i = 0; i < customer.PhoneNumbers.Count; i++)
                             {
                                 PhoneNumber phoneNumber = new PhoneNumber();
-                                phoneNumber.Number = customer.PhoneNumbers[i];
+                                phoneNumber.Number = customer.PhoneNumbers[i].Number;
                                 phoneNumbers.Add(phoneNumber);
                                 ctx.PhoneNumbers.Add(phoneNumber);
                             }
