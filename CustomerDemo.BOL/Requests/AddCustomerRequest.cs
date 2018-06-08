@@ -33,13 +33,17 @@ namespace CustomerDemo.BOL.Requests
                     if (_customer == null)
                     {
                         
-                        if (customer.PhoneNumber > 0)
+                        if (customer.PhoneNumbers.Count > 0)
                         {
-                            PhoneNumber phoneNumber = new PhoneNumber();
-                            phoneNumber.Number = customer.PhoneNumber;
-                            ctx.PhoneNumbers.Add(phoneNumber);
-                            ctx.SaveChanges();
-                            CUSTOMER.PhoneNumberID = phoneNumber.ID;
+                            List<PhoneNumber> phoneNumbers = new List<PhoneNumber>();
+                            for (int i = 0; i < customer.PhoneNumbers.Count; i++)
+                            {
+                                PhoneNumber phoneNumber = new PhoneNumber();
+                                phoneNumber.Number = customer.PhoneNumbers[i];
+                                phoneNumbers.Add(phoneNumber);
+                                ctx.PhoneNumbers.Add(phoneNumber);
+                            }
+                            CUSTOMER.PhoneNumbers = phoneNumbers;
                         }
                         CUSTOMER.Name = customer.Name;
                         CUSTOMER.BirthDate = customer.BirthDate;

@@ -16,7 +16,6 @@
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="Address" Type="nvarchar" MaxLength="50" />
           <Property Name="Notes" Type="nvarchar" MaxLength="200" />
-          <Property Name="PhoneNumberID" Type="int" />
         </EntityType>
         <EntityType Name="PhoneNumbers">
           <Key>
@@ -24,25 +23,26 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Number" Type="bigint" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Customer_PhoneNumbers">
-          <End Role="PhoneNumbers" Type="Self.PhoneNumbers" Multiplicity="0..1" />
-          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+        <Association Name="FK_PhoneNumbers_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="PhoneNumbers" Type="Self.PhoneNumbers" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PhoneNumbers">
+            <Principal Role="Customer">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="PhoneNumberID" />
+            <Dependent Role="PhoneNumbers">
+              <PropertyRef Name="CustomerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="CustomerDemoModelStoreContainer">
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhoneNumbers" EntityType="Self.PhoneNumbers" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Customer_PhoneNumbers" Association="Self.FK_Customer_PhoneNumbers">
-            <End Role="PhoneNumbers" EntitySet="PhoneNumbers" />
+          <AssociationSet Name="FK_PhoneNumbers_Customer" Association="Self.FK_PhoneNumbers_Customer">
             <End Role="Customer" EntitySet="Customer" />
+            <End Role="PhoneNumbers" EntitySet="PhoneNumbers" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -52,9 +52,9 @@
         <EntityContainer Name="CustomerDemoEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Customers" EntityType="CustomerDemoModel.Customer" />
           <EntitySet Name="PhoneNumbers" EntityType="CustomerDemoModel.PhoneNumber" />
-          <AssociationSet Name="FK_Customer_PhoneNumbers" Association="CustomerDemoModel.FK_Customer_PhoneNumbers">
-            <End Role="PhoneNumber" EntitySet="PhoneNumbers" />
+          <AssociationSet Name="FK_PhoneNumbers_Customer" Association="CustomerDemoModel.FK_PhoneNumbers_Customer">
             <End Role="Customer" EntitySet="Customers" />
+            <End Role="PhoneNumber" EntitySet="PhoneNumbers" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Customer">
@@ -68,8 +68,7 @@
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Notes" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberID" Type="Int32" />
-          <NavigationProperty Name="PhoneNumber" Relationship="CustomerDemoModel.FK_Customer_PhoneNumbers" FromRole="Customer" ToRole="PhoneNumber" />
+          <NavigationProperty Name="PhoneNumbers" Relationship="CustomerDemoModel.FK_PhoneNumbers_Customer" FromRole="Customer" ToRole="PhoneNumber" />
         </EntityType>
         <EntityType Name="PhoneNumber">
           <Key>
@@ -77,17 +76,18 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Number" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Customers" Relationship="CustomerDemoModel.FK_Customer_PhoneNumbers" FromRole="PhoneNumber" ToRole="Customer" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="CustomerDemoModel.FK_PhoneNumbers_Customer" FromRole="PhoneNumber" ToRole="Customer" />
         </EntityType>
-        <Association Name="FK_Customer_PhoneNumbers">
-          <End Type="CustomerDemoModel.PhoneNumber" Role="PhoneNumber" Multiplicity="0..1" />
-          <End Type="CustomerDemoModel.Customer" Role="Customer" Multiplicity="*" />
+        <Association Name="FK_PhoneNumbers_Customer">
+          <End Type="CustomerDemoModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="CustomerDemoModel.PhoneNumber" Role="PhoneNumber" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="PhoneNumber">
+            <Principal Role="Customer">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Customer">
-              <PropertyRef Name="PhoneNumberID" />
+            <Dependent Role="PhoneNumber">
+              <PropertyRef Name="CustomerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -100,7 +100,6 @@
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="CustomerDemoModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="PhoneNumberID" ColumnName="PhoneNumberID" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -114,6 +113,7 @@
           <EntitySetMapping Name="PhoneNumbers">
             <EntityTypeMapping TypeName="CustomerDemoModel.PhoneNumber">
               <MappingFragment StoreEntitySet="PhoneNumbers">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

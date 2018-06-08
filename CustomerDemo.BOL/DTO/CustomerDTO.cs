@@ -29,9 +29,10 @@ namespace CustomerDemo.BOL.DTO
         public string Address { get; set; }
         public string Notes { get; set; }
 
-        [RegularExpression("^[0-9]*$",ErrorMessage = "not valid"),Range(00000000000, 99999999999, ErrorMessage = "not valid")]
         [Display(Name = "Phone")]
-        public long PhoneNumber { get; set; }
-        public int PhoneNumberID { get; set; }
+        [RegularExpression("^[0-9]*$",ErrorMessage = "not valid"),Range(00000000000, 99999999999, ErrorMessage = "not valid")]
+        [Required(ErrorMessage = "is Requried")]
+        public List<long> PhoneNumbers { get; set; }
+        public List<int> PhoneNumberIDs { get; set; }
     }
 }
