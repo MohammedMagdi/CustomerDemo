@@ -9,5 +9,6 @@ namespace CustomerDemo.BOL.Responses
 {
     public class UpdateCustomerResponse : ResponseBase
     {
+        public CustomerDTO Customer { get; set; }
     }
 }

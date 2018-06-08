@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CustomerDemo.BOL.Responses;
 using CustomerDemo.BOL.DTO;
 using CustomerDemo.DAL;
+using CustomerDemo.BOL.Utilities;
 
 namespace CustomerDemo.BOL.Requests
 {
@@ -40,12 +41,28 @@ namespace CustomerDemo.BOL.Requests
                             for (int i = 0; i < customer.PhoneNumbers.Count; i++)
                             {
                                 PhoneNumber phoneNumber = new PhoneNumber();
-                                phoneNumber.Number = customer.PhoneNumbers[i].Number;
+                                if (customer.PhoneNumbers[i].ID > 0)
+                                {
+                                    var _number = customer.PhoneNumbers[i].Number;
+
+                                    phoneNumber = ctx.PhoneNumbers.Where(p => p.Number == _number
+                                    && p.CustomerID == customer.ID).FirstOrDefault();
+
+                                    if (phoneNumber != null)
+                                    {
+                                        phoneNumber.Number = customer.PhoneNumbers[i].Number;
+                                    }
+                                }
+                                else
+                                {
+                                    phoneNumber.Number = customer.PhoneNumbers[i].Number;
+                                    phoneNumber.CustomerID = customer.ID;
+                                    ctx.PhoneNumbers.Add(phoneNumber);
+                                }
+                                ctx.SaveChanges();
                                 phoneNumbers.Add(phoneNumber);
-                                ctx.PhoneNumbers.Add(phoneNumber);
-                                //ctx.SaveChanges();
                             }
-                            //CUSTOMER.PhoneNumbers = phoneNumbers;
+                            CUSTOMER.PhoneNumbers = phoneNumbers;
                         }
                         CUSTOMER.Name = customer.Name;
                         CUSTOMER.BirthDate = customer.BirthDate;
@@ -56,7 +73,8 @@ namespace CustomerDemo.BOL.Requests
 
                         ctx.SaveChanges();
 
-
+                        CustomerDTO = ConfigMapper.Map<Customer, CustomerDTO>(CUSTOMER);
+                        responseObject.customer = CustomerDTO;
                         responseObject.Message = "Customer Updateed Successufully";
                         responseObject.IsSuccess = true;
                     }
