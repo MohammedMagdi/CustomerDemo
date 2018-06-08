@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customer.API", "Customer.API\Customer.API.csproj", "{6C3D700E-A5D0-4AF1-B834-A8BBC12D30C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerDemo.API", "Customer.API\CustomerDemo.API.csproj", "{6C3D700E-A5D0-4AF1-B834-A8BBC12D30C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerDemo.DAL", "CustomerDemo.DAL\CustomerDemo.DAL.csproj", "{6960B6CC-0C81-4BD6-A250-09A1F14766DB}"
 EndProject

@@ -35,8 +35,10 @@ namespace CustomerDemo.BOL.Requests
                            
                         
                         CustomerDTOs = ConfigMapper.MapList<Customer, CustomerDTO>(CUSTOMERs);
-
-                        responseObject.Message = "";
+                        if (CustomerDTOs.Count == 0)
+                        {
+                            responseObject.Message = "No Customer found";
+                        }
                         responseObject.IsSuccess = true;
                         responseObject.customers = CustomerDTOs;
                     }
@@ -48,7 +50,6 @@ namespace CustomerDemo.BOL.Requests
                         {
                             CustomerDTOs = ConfigMapper.MapList<Customer, CustomerDTO>(CUSTOMERs);
 
-                            responseObject.Message = "";
                             responseObject.IsSuccess = true;
                             responseObject.customers = CustomerDTOs;
                         }
