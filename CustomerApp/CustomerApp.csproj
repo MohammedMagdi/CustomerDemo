@@ -16,6 +16,10 @@
     
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="src\app\services\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <NgProjectAssetsFile Condition="'$(ProjectAssetsFile)' != ''">$(ProjectAssetsFile)</NgProjectAssetsFile>
     <NgProjectAssetsFile Condition="'$(NgProjectAssetsFile)' == ''">$(BaseIntermediateOutputPath)/project.assets.json</NgProjectAssetsFile>

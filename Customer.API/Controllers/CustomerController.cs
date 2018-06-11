@@ -8,12 +8,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Customer.API.Controllers
 {
-    
     public class CustomerController : ApiController
     {
+        
         [HttpPost]
         [Route("api/Customer/add")]
         public ResponseBase AddCustomer(AddCustomerRequest request)

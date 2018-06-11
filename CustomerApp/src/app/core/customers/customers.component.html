@@ -1,3 +1,55 @@
-<p>
-  customers works!
-</p>
+<div class="container">
+  <h1>
+    Customers
+  </h1>
+  <p-dataTable resizableColumns="true" [value]="Customers" [paginator]="true" [responsive]="true" [stacked]="stacked" [rows]="20" [immutable]="false">
+    <p-header>List of Customers
+      <div class="ui-helper-clearfix">
+        <button type="button" pButton icon="fa fa-plus" iconPos="left" label="Add" style="float:right" (click)="addNewCustomer()"></button>
+      </div>
+    </p-header>
+
+    <p-column field="Name" header="Name"></p-column>
+
+    <p-column field="BirthDate" header="BirthDate">
+      <ng-template let-row="rowData" pTemplate="body">
+        {{row.BirthDate | date:'MM/dd/yyyy'}}
+      </ng-template>
+    </p-column>
+
+    <p-column field="Gender" header="Gender">
+      <ng-template let-row="rowData" pTemplate="body">
+        {{Gender ? 'Female' : 'Male'}}
+      </ng-template>
+    </p-column>
+
+    <p-column field="Email" header="Email"></p-column>
+    <p-column field="Address" header="Address"></p-column>
+
+    <p-column field="PhoneNumbers" header="PhoneNumbers">
+      <ng-template let-row="rowData" pTemplate="body">
+        <li *ngFor="let phone of row.PhoneNumbers">
+          {{phone.Number}}
+        </li>
+      </ng-template>
+    </p-column>
+
+    <p-column field="Notes" header="Notes"></p-column>
+
+    <p-column styleClass="col-button">
+      <ng-template let-customer="rowData" pTemplate="body">
+        <button type="button" pButton icon="fa fa-edit" (click)="editCustomer(customer)"></button>
+        <button type="button" pButton icon="fa fa-trash" class="ui-button-danger" (click)="deleteCustomer(customer)"></button>
+      </ng-template>
+    </p-column>
+
+
+  </p-dataTable>
+
+  <div *ngIf="customer">
+    <app-customer-details [customer]="customer" (saveCustomerDetailsNotify)="saveCustomer($event)"></app-customer-details>
+  </div>
+  <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>
+
+</div>
+<p-growl [(value)]="msgs"></p-growl>
