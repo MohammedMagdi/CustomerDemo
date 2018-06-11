@@ -1,0 +1,79 @@
+<p-dialog header="Customer Details" [(visible)]="display" [modal]="true" [responsive]="true" [width]="500" [minWidth]="200"
+  [minY]="70" (onHide)="cancel()">
+  <form>
+    <div class="form-group">
+      <div class="ui-inputgroup">
+        <span class="ui-float-label">
+          <input type="text" pInputText  [(ngModel)]="customer.Name" name="Name" required>
+          <label for="float-input">Name</label>
+          <span class="ui-inputgroup-addon">
+            <i class="fa fa-user"></i>
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <p-radioButton name="Gender" value="Male" label="Male" [(ngModel)]="GendreValue" inputId="preopt1" (ngModelChange)="getGendre($event)"></p-radioButton>
+      <p-radioButton name="Gender" value="Female" label="Female" [(ngModel)]="GendreValue" inputId="preopt2" (ngModelChange)="getGendre($event)"></p-radioButton>
+    </div>
+
+
+    <div class="form-group">
+      <div class="ui-inputgroup">
+        <p-calendar [ngModel]="customer.BirthDate | date: 'MM/dd/yyyy'" name="BirthDate" [showIcon]="true" [monthNavigator]="true"
+          [yearNavigator]="true" yearRange="1918:2018" (onSelect)="getBirthDate($event)"></p-calendar>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="ui-inputgroup">
+        <span class="ui-float-label">
+          <input type="text" pInputText  [(ngModel)]="customer.Email" name="Email">
+          <label for="float-input">Email</label>
+          <span class="ui-inputgroup-addon">
+            <i class="fa fa-at"></i>
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="ui-inputgroup">
+        <span class="ui-float-label">
+          <input type="text" pInputText  [(ngModel)]="customer.Address" name="Address">
+          <label for="float-input">Address</label>
+          <span class="ui-inputgroup-addon">
+            <i class="fa fa-location-arrow"></i>
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="ui-inputgroup">
+        <span class="ui-float-label">
+          <input type="text" pInputText  [(ngModel)]="customer.Notes" name="Notes">
+          <label for="float-input">Notes</label>
+          <span class="ui-inputgroup-addon">
+            <i class="fa fa-sticky-note"></i>
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button pButton type="button" (click)="addPhoneNumber()" label="Add Number" class="ui-button-info"></button>
+    </div>
+    <div class="form-group">
+      <app-phone-number *ngFor="let phonenumber of customer.PhoneNumbers" [phonenumber]="phonenumber" (deletePhoneNumberNotify)="deletePhoneNumber($event)"></app-phone-number>
+    </div>
+
+  </form>
+  <p-footer>
+    <button type="button" pButton icon="pi pi-check" (click)="saveCustomer()" label="Save" class="ui-button-success"></button>
+    <button type="button" pButton icon="pi pi-close" (click)="display=false" label="Cancel" class="ui-button-danger"></button>
+  </p-footer>
+
+</p-dialog>
+<p-growl [(value)]="msgs"></p-growl>
