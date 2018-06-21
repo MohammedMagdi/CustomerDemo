@@ -2,7 +2,14 @@
   <h1>
     Customers
   </h1>
-  <p-dataTable resizableColumns="true" [value]="Customers" [paginator]="true" [responsive]="true" [stacked]="stacked" [rows]="20" [immutable]="false">
+  <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+    <input #gb type="text" pInputText size="50" placeholder="Search...">
+  </div>
+
+  <p-dataTable resizableColumns="true" [value]="Customers" scrollable="true" [paginator]="true" [globalFilter]="gb" #dt [responsive]="true"
+    [stacked]="stacked" [rows]="20" [immutable]="false">
+
     <p-header>List of Customers
       <div class="ui-helper-clearfix">
         <button type="button" pButton icon="fa fa-plus" iconPos="left" label="Add" style="float:right" (click)="addNewCustomer()"></button>
@@ -46,8 +53,9 @@
 
   </p-dataTable>
 
-  <div *ngIf="customer">
-    <app-customer-details [customer]="customer" (saveCustomerDetailsNotify)="saveCustomer($event)"></app-customer-details>
+  <div *ngIf="showCustomerDetails">
+    <app-customer-details [customer]="customer" (saveCustomerDetailsNotify)="saveCustomer($event)" [showCustomerDetails]="showCustomerDetails"
+      (showCustomerDetailsNotify)="showCustomerDetail($event)"></app-customer-details>
   </div>
   <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>
 

@@ -14,7 +14,10 @@ export class CustomerDetailsComponent implements OnInit {
 
   @Input() customer: Customer;
   @Output() saveCustomerDetailsNotify = new EventEmitter<Customer>();
-  display: boolean ;
+
+  @Input() showCustomerDetails: boolean;
+  @Output() showCustomerDetailsNotify = new EventEmitter<boolean>();
+
   GendreValue: string;
   msgs: Message[] = [];
   Messages: string[];
@@ -25,7 +28,6 @@ export class CustomerDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.GendreValue = this.customer.Gender ? "Male" : "Female";
-    this.display = true;
   }
 
   getBirthDate($event) {
@@ -54,7 +56,7 @@ export class CustomerDetailsComponent implements OnInit {
             if (response.IsSuccess) {
               thisComponent.msgs = [];
               thisComponent.msgs.push({ severity: 'success', summary: 'Success Message', detail: 'Customer Saved success' });
-              thisComponent.display = false;
+              thisComponent.showCustomerDetailsNotify.emit(false);
               thisComponent.customer.ID = response.customer.ID;
               thisComponent.saveCustomerDetailsNotify.emit(this.customer);
             }
@@ -73,9 +75,8 @@ export class CustomerDetailsComponent implements OnInit {
             if (response.IsSuccess) {
               thisComponent.msgs = [];
               thisComponent.msgs.push({ severity: 'success', summary: 'Success Message', detail: 'Customer Saved success' });
-              thisComponent.display = false;
+              thisComponent.showCustomerDetailsNotify.emit(false);
               thisComponent.saveCustomerDetailsNotify.emit(this.customer);
-              // this.customer = response.customers;
             }
             else {
               alert(response.Errors);
@@ -105,14 +106,14 @@ export class CustomerDetailsComponent implements OnInit {
     }
     if (customer.BirthDate !== null) {
       let nowDate = new Date(Date.now());
-      let customerBirthDate =  (customer.BirthDate);
+      let customerBirthDate = (customer.BirthDate);
       let customerDate = new Date(customerBirthDate);
       let customerAge = (nowDate).getUTCFullYear() - customerDate.getUTCFullYear();
       if (customerAge > 100 || customerAge < 1) {
         this.Messages.push('Age must be less than 100 and more than 1');
       }
     }
-    else{
+    else {
       this.Messages.push('Birthdate required');
     }
 
@@ -148,7 +149,7 @@ export class CustomerDetailsComponent implements OnInit {
       }
     }
   }
-  cancel(){
-    this.display = false;
+  cancel() {
+    this.showCustomerDetailsNotify.emit(false);
   }
 }

@@ -1,4 +1,4 @@
-<p-dialog header="Customer Details" [(visible)]="display" [modal]="true" [responsive]="true" [width]="500" [minWidth]="200"
+<p-dialog header="Customer Details" [(visible)]="showCustomerDetails" [modal]="true" [responsive]="true" [width]="500" [minWidth]="200"
   [minY]="70" (onHide)="cancel()">
   <form>
     <div class="form-group">
@@ -72,7 +72,7 @@
   </form>
   <p-footer>
     <button type="button" pButton icon="pi pi-check" (click)="saveCustomer()" label="Save" class="ui-button-success"></button>
-    <button type="button" pButton icon="pi pi-close" (click)="display=false" label="Cancel" class="ui-button-danger"></button>
+    <button type="button" pButton icon="pi pi-close" (click)="cancel()" label="Cancel" class="ui-button-danger"></button>
   </p-footer>
 
 </p-dialog>

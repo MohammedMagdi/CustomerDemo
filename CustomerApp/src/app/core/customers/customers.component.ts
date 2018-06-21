@@ -15,6 +15,7 @@ export class CustomersComponent implements OnInit {
   Customers: Customer[];
   customer: Customer;
   msgs: Message[] = [];
+  showCustomerDetails: boolean = false;
   constructor(private CustomerService: CustomerService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService) { }
@@ -33,6 +34,7 @@ export class CustomersComponent implements OnInit {
 
   editCustomer(customer: Customer) {
     this.customer = customer;
+    this.showCustomerDetails = true;
   }
 
   deleteCustomer(customer: Customer) {
@@ -61,6 +63,7 @@ export class CustomersComponent implements OnInit {
   addNewCustomer() {
     this.customer = new Customer();
     this.customer = { ID: 0, Address: "", Name: "", Email: "", BirthDate: null, Gender: true, Notes: "", PhoneNumbers: [{ ID: 0, Number: null, CustomerID: 0 }] };
+    this.showCustomerDetails = true;
   }
 
   saveCustomer(customer: Customer) {
@@ -69,5 +72,9 @@ export class CustomersComponent implements OnInit {
       this.Customers.push(customer);
     }
     this.customer = null;
+  }
+
+  showCustomerDetail(isVisibe: boolean){
+    this.showCustomerDetails = isVisibe;
   }
 }
